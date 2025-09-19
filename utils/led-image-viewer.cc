@@ -175,9 +175,11 @@ static bool LoadImageAndScale(const char *filename,
 
 void DisplayAnimation(const FileInfo *file,
                       RGBMatrix *matrix, FrameCanvas *offscreen_canvas) {
-  const tmillis_t duration_ms = (file->is_multi_frame
-                                 ? file->params.anim_duration_ms
-                                 : file->params.wait_ms);
+  const tmillis_t duration_ms =
+      (file->params.anim_duration_ms != distant_future)
+          ? file->params.anim_duration_ms
+          : (file->is_multi_frame ? file->params.anim_duration_ms
+                                  : file->params.wait_ms);
   rgb_matrix::StreamReader reader(file->content_stream);
   int loops = file->params.loops;
   const tmillis_t end_time_ms = GetTimeInMillis() + duration_ms;
@@ -410,7 +412,14 @@ int main(int argc, char *argv[]) {
         if (file_info->is_multi_frame) {
           delay_time_us = img.animationDelay() * 10000; // unit in 1/100s
         } else {
-          delay_time_us = file_info->params.wait_ms * 1000;  // single image.
+          const int64_t meta_delay_us = img.animationDelay() * 10000; // unit in 1/100s
+          if (meta_delay_us > 0) {
+            delay_time_us = meta_delay_us;
+            // Honor single-frame GIF metadata by default: show for that duration.
+            file_info->params.anim_duration_ms = meta_delay_us / 1000;
+          } else {
+            delay_time_us = file_info->params.wait_ms * 1000;  // single image fallback.
+          }
         }
         if (delay_time_us <= 0) delay_time_us = 100 * 1000;  // 1/10sec
         StoreInStream(img, delay_time_us, do_center, offscreen_canvas,
@@ -482,8 +491,11 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "No image could be loaded.\n");
     return 1;
   } else if (file_imgs.size() == 1) {
-    // Single image: show forever.
-    file_imgs[0]->params.wait_ms = distant_future;
+    // Single image: show forever unless -t/-l provided or image provides per-frame delay metadata.
+    ImageParams &p = file_imgs[0]->params;
+    if (p.anim_duration_ms == distant_future && p.loops < 0) {
+      p.wait_ms = distant_future;
+    }
   } else {
     for (size_t i = 0; i < file_imgs.size(); ++i) {
       ImageParams &params = file_imgs[i]->params;
