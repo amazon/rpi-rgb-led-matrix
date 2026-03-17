@@ -122,6 +122,17 @@ two chains with 8 panels each
 
 (`--led-chain=8 --led-parallel=2 --led-pixel-mapper="U-mapper"`).
 
+#### Z-mapper (Z-shape connection)
+This is very similar to the U-mapper, but instead of folding the chain back on itself, you use a long ribbon cable to connect the end of the first row to the beginning of the second row. This keeps all panels in the same orientation.
+
+```
+   [<][<][<][<]  }--- Pi connector #1
+                 }--- (long ribbon cable)
+   [<][<][<][<]
+```
+
+You can choose it with `--led-pixel-mapper="Z-mapper"`.
+
 #### V-mapper and Vmapper:Z (Vertical arrangement)
 
 By default, when you add panels on a chain, they are added horizontally.

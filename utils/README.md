@@ -24,7 +24,7 @@ the [toplevel readme](../README.md#changing-parameters-via-command-line-flags)
  --led-multiplexing=<0..11> : Mux type: 0=direct; 1=Stripe; 2=Checkered; 3=Spiral; 4=ZStripe; 5=ZnMirrorZStripe; 6=coreman; 7=Kaler2Scan; 8=ZStripeUneven; 9=P10-128x4-Z; 10=QiangLiQ8; 11=InversedZStripe (Default: 0)
  --led-pixel-mapper        : Semicolon-separated list of pixel-mappers to arrange pixels.
                                     Optional params after a colon e.g. "U-mapper;Rotate:90"
-                                    Available: "Mirror", "Rotate", "U-mapper". Default: ""
+                                    Available: "Mirror", "Rotate", "U-mapper", "Z-mapper". Default: ""
  --led-pwm-bits=<1..11>    : PWM bits (Default: 11).
  --led-brightness=<percent>: Brightness in percent (Default: 100).
  --led-scan-mode=<0..1>    : 0 = progressive; 1 = interlaced (Default: 0).

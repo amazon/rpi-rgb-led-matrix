@@ -160,7 +160,7 @@ This documentation is split into parts that help you through the process
     [**Wire up the matrix to your Pi**](./wiring.md). This document describes
     what goes where.
 - [How to map pixels between panels or within panels](./lib). This is crutial for figuring out pixel mappers,
-  matrix mappers and so forth. This is where you will learn about panel layout with U-Mapper, V-Mapper, V-Mapper:Z
+  matrix mappers and so forth. This is where you will learn about panel layout with U-Mapper, Z-Mapper, V-Mapper, V-Mapper:Z
 - [Adapter GPIO boards output to up to 3 channels (electrodragon board recommended)](./adapter).
     If you have an [Adafruit HAT] or [Adafruit Bonnet], you can choose that with
     a command line option [described below](#if-you-have-an-adafruit-hat-or-bonnet)
@@ -426,7 +426,8 @@ Available | Parameter after colon| Example
 ----------|----------------------|----------
 Mirror    | `H` or `V` for horizontal/vertical mirror. | `Mirror:H`
 Rotate    | Degrees.                                   | `Rotate:90`
-U-mapper  | -
+U-mapper  | -                                          | `U-mapper`
+Z-mapper  | -                                          | `Z-mapper`
 
 Mapping the logical layout of your boards to your physical arrangement. See
 more in [Remapping coordinates](./examples-api-use#remapping-coordinates).
